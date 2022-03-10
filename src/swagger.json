@@ -1,0 +1,136 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Users Control",
+        "description": "API Users",
+        "version": "1.0.0",
+        "contact": {
+            "email": "gabrielvt.souza@hotmail.com"
+        }
+    },
+    "paths": {
+        "/users": {
+            "post": {
+                "tags": ["User"],
+                "summary": "Criar um usuário",
+                "description": "Cria um novo usuário",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    }
+                                },
+                                "example": {
+                                    "name": "Beatriz Renata",
+                                    "email": "bia@bia.com"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário criado"
+                    },
+                    "400": {
+                        "description": "Erro na hora de criar um novo usuário"
+                    }
+                }
+            },
+            "get": {
+                "tags": ["User"],
+                "summary": "Busca todos os usuários",
+                "description": "Precisa ser ADMIN para buscar usuário",
+                "parameters": [{
+                    "in": "header",
+                    "name": "user_id",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "minimum": 1
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Retorna os usuários"
+                    },
+                    "404": {
+                        "description": "Error ao tentar trazer os usuários"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}/admin": {
+            "patch": {
+                "tags": ["User"],
+                "summary": "Torna admin",
+                "description": "Turna um usuário em admin",
+                "parameters": [{
+                    "in": "path",
+                    "name": "user_id",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "minimum": 1
+                    },
+                    "description": "The user ID"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Turned"
+                    },
+                    "404": {
+                        "description": "Error to turn the user to admin"
+                    }
+                }
+            }
+        },
+        "/users/{user_id}": {
+            "get": {
+                "tags": ["User"],
+                "summary": "Busca um usuário",
+                "description": "Trás um usuário específico",
+                "parameters": [{
+                    "in": "path",
+                    "name": "user_id",
+                    "required": true,
+                    "schema": {
+                        "type": "string",
+                        "minimum": 1
+                    },
+                    "description": "The user ID"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    },
+                                    "properties": {
+                                        "name": {
+                                            "type": "string"
+                                        },
+                                        "description": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
